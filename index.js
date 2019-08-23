@@ -22,9 +22,9 @@ function displayResults(responseJson) {
     //list with the video title, description,
     //and thumbnail
     $('#results-list').append(
-      `<li><h3>${responseJson.data[i].snippet.title}</h3>
-      <p>${responseJson.items[i].snippet.description}</p>
-      <img src='${responseJson.items[i].snippet.thumbnails.default.url}'>
+      `<li><h3>${responseJson.data[i].fullName}</h3>
+      <p>${responseJson.data[i].description}</p>
+      <p>'${responseJson.data[i].url}'</p>
       </li>`
     )};
   //display the results section  
