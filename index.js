@@ -2,12 +2,12 @@
 
 // put your own value below!
 const apiKey = 'MyLKCa6lEbQroYianjGFZdcs2fuUW2QB0j7nQFuM'; 
-const searchURL = 'developer.nps.gov/api/v1';
+const searchURL = 'https://developer.nps.gov/api/v1/parks';
 
 
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
-    .map(key => `${encodeURIComponent(params[key])}&api_key=${encodeURIComponent(key)}`)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
   return queryItems.join('&');
 }
 
@@ -16,13 +16,13 @@ function displayResults(responseJson) {
   console.log(responseJson);
   $('#results-list').empty();
   // iterate through the items array
-  for (let i = 0; i < responseJson.items.length; i++){
+  for (let i = 0; i < responseJson.data.length; i++){
     // for each video object in the items 
     //array, add a list item to the results 
     //list with the video title, description,
     //and thumbnail
     $('#results-list').append(
-      `<li><h3>${responseJson.items[i].snippet.title}</h3>
+      `<li><h3>${responseJson.data[i].snippet.title}</h3>
       <p>${responseJson.items[i].snippet.description}</p>
       <img src='${responseJson.items[i].snippet.thumbnails.default.url}'>
       </li>`
@@ -31,18 +31,14 @@ function displayResults(responseJson) {
   $('#results').removeClass('hidden');
 };
 
-function getParkInfo(query, maxResults=10) {
+function getParkInfo(query, maxResults) {
   const params = {
-    key: apiKey,
-    q: query,
-    parks: 'stateCode',
-
-    part: 'snippet',
-    maxResults,
-    type: 'video'
+    stateCode: query,//query is the user inputed state CA
+    limit: maxResults,  //10
   };
-  const queryString = formatQueryParams(params)
-  const url = searchURL + '?' + queryString;
+  const queryString = formatQueryParams(params);
+  const url = searchURL + '?' + queryString + '&api_key=MyLKCa6lEbQroYianjGFZdcs2fuUW2QB0j7nQFuM';
+  //
 
   console.log(url);
 
